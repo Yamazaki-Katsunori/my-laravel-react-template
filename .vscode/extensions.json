@@ -1,0 +1,12 @@
+{
+  // See: https://code.visualstudio.com/docs/editor/extension-gallery#_workspace-recommended-extensions
+  "recommendations": [
+    // neovim extensions list
+    "asvetliakov.vscode-neovim",
+    "JulianIaquinandi.nvim-ui-modifier",
+    "AI-Smith.nvim-ui-modes"
+  ],
+  "unwantedRecommendations": [
+    // 必要ならここに workspace で非推奨にしたい拡張を入れられます（空でも可）
+  ]
+}

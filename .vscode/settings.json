@@ -1,0 +1,19 @@
+{
+  // 全体（デフォルト）
+  "editor.tabSize": 2,
+  "editor.formatOnSave": false,
+
+  // TypeScript 向けオーバーライド
+  "[typescript]": {
+    "editor.tabSize": 4,
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // PHP 向けオーバーライド
+  "[php]": {
+    "editor.tabSize": 4,
+    "editor.formatOnSave": true,
+    "editor.rulers": [120]
+  }
+}
