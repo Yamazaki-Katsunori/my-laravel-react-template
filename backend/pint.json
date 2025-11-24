@@ -1,0 +1,12 @@
+{
+  "preset": "laravel",
+  "rules": {
+    "strict_types": true,
+    "no_unused_imports": true
+  },
+  "exclude": [
+    "bootstrap",
+    "storage",
+    "vendor"
+  ]
+}

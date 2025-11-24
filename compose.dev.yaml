@@ -1,0 +1,50 @@
+# compose.dev.yaml
+
+services:
+  # VS Code が接続する開発用コンテナ
+  workspace:
+    build:
+      context: ./docker/workspace
+      args:
+        USER_UID: ${LOCAL_UID:-1000}
+        USER_GID: ${LOCAL_GID:-1000}
+    volumes:
+      - ./:/workspace:cached
+      - devcontainer-npm-cache:/home/vscode/.npm
+      - devcontainer-composer-cache:/home/vscode/.composer
+    working_dir: /workspace
+    command: ["tail", "-f", "/dev/null"]
+    tty: true
+    stdin_open: true
+    networks:
+      - devnet
+    depends_on:
+      - postgres
+    environment:
+      - PUID=1000
+      - PGID=1000
+
+  # base の php に「開発用の差分」だけ追加
+  php:
+    environment:
+      # Xdebug 固有の設定（dev 専用）
+      XDEBUG_MODE: "develop,debug"
+      XDEBUG_CONFIG: "client_host=host.docker.internal client_port=9003"
+    extra_hosts:
+      # Linux でも host.docker.internal を使えるようにする設定
+      - "host.docker.internal:host-gateway"
+
+  # base の nginx に「ポート公開」だけ追加
+  nginx:
+    ports:
+      - "80:80"
+
+  # base の postgres に「ポート公開」だけ追加
+  postgres:
+    ports:
+      - "5432:5432"
+
+volumes:
+  # devcontainer 用のキャッシュ（開発専用）
+  devcontainer-npm-cache:
+  devcontainer-composer-cache:

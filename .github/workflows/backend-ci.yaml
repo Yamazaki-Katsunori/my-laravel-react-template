@@ -1,0 +1,57 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend-ci.yaml"
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend-ci.yaml"
+
+jobs:
+  backend-tests:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions: pdo_pgsql
+          coverage: none
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: backend/vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('backend/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      # Pest で DB を叩くようなテストをする場合は、ここで .env と key を準備
+      - name: Prepare application
+        run: |
+          if [ ! -f .env ]; then
+            cp .env.example .env
+          fi
+          php artisan key:generate
+
+      - name: Run PHP lint (Pint + PHPStan)
+        run: composer lint
+
+      - name: Run tests (Pest)
+        run: composer test

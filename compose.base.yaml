@@ -1,0 +1,55 @@
+# compose.base.yaml
+services:
+  # php ランタイムコンテナ（本番/CI ともに共通で使える基本形）
+  php:
+    build:
+      context: ./docker/php
+    volumes:
+      # もともと ./:/var/www/html だったので、そのまま踏襲
+      - ./:/var/www/html:cached
+      - ./docker/php/conf.d/php.ini:/usr/local/etc/php/conf.d/99-custom.ini:ro
+      - ./docker/php/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf:ro
+      - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/20-xdebug.ini:ro
+    expose:
+      - "9000"
+    # Xdebug の env / extra_hosts は dev 側で追加する（本番と切り分けるため）
+    networks:
+      - devnet
+    depends_on:
+      - postgres
+
+  # nginx コンテナ（ports は dev 側で追加）
+  nginx:
+    image: nginx:stable
+    volumes:
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./:/var/www/html:ro
+    networks:
+      - devnet
+    depends_on:
+      - php
+
+  # postgresql コンテナ
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: laravel
+      POSTGRES_USER: laravel
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./docker/db/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+      - ./docker/db/pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
+      - ./docker/db/pg_ident.conf:/etc/postgresql/pg_ident.conf:ro
+    command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
+    networks:
+      - devnet
+    # ports は dev 側で追加
+
+volumes:
+  # DB 永続化用（本番/CI でも共通）
+  pgdata:
+
+networks:
+  devnet:
+    driver: bridge

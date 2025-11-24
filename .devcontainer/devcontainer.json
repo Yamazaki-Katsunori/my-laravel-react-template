@@ -1,0 +1,77 @@
+{
+  "name": "Laravel + React DevContainer",
+  "dockerComposeFile": ["../compose.base.yaml", "../compose.dev.yaml"],
+  "service": "workspace",
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+  "remoteUser": "vscode",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "24"
+    },
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "configureZshAsDefaultShell": true,
+      "installOhMyZsh": true,
+      "installOhMyZshConfig": true,
+      "upgradePackages": false,
+      "username": "none"
+    },
+    "ghcr.io/devcontainers/features/aws-cli:1": {}
+  },
+  "forwardPorts": [80, 5173, 9003],
+  "portsAttributes": {
+    "80": { "label": "nginx", "onAutoForward": "notify" },
+    "5173": { "label": "vite", "onAutoForward": "openBrowser" },
+    "9003": { "label": "xdebug", "onAutoForward": "notify" }
+  },
+  "mounts": [
+    "source=devcontainer-npm-cache,target=/home/vscode/.npm,type=volume",
+    "source=devcontainer-composer-cache,target=/home/vscode/.composer,type=volume"
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "yzhang.markdown-all-in-one",
+        "hancel.markdown-image",
+        "bierner.markdown-preview-github-styles",
+        "shd101wyy.markdown-preview-enhanced",
+        "bmewburn.vscode-intelephense-client",
+        "felixfbecker.php-debug",
+        "laravel.vscode-laravel",
+        "amiralizadeh9480.laravel-extra-intellisense",
+        "ms-vscode.vscode-typescript-next",
+        "yoavbls.pretty-ts-errors",
+        "vitest.explorer",
+        "msjsdiag.vscode-react-native",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "redhat.vscode-yaml",
+        "PKief.material-icon-theme",
+        "shardulm94.trailing-spaces",
+        "mosapride.zenkaku",
+        "formulahendry.code-runner",
+        "ms-azuretools.vscode-docker",
+        "mikestead.dotenv",
+        "christian-kohler.path-intellisense",
+        "MS-CEINTL.vscode-language-pack-ja",
+        "formulahendry.auto-close-tag",
+        "formulahendry.auto-rename-tag",
+        "naumovs.color-highlight",
+        "DotJoshJohnson.xml",
+        "leodevbro.blockman",
+        "eamodio.gitlens",
+        "GitHub.vscode-pull-request-github",
+        "mhutchie.git-graph"
+      ],
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash",
+        "php.validate.executablePath": "/usr/local/bin/php"
+      }
+    }
+  },
+  "initializeCommand": ["echo", "=== start initializeCommand ==="],
+  "onCreateCommand": "chown -R ${localEnv:LOCAL_UID:-1000}:${localEnv:LOCAL_GID:-1000} /home/vscode/.npm /home/vscode/.composer /workspace || true",
+  "updateContentCommand": ["echo", "=== start updateContentCommand ==="],
+  "postCreateCommand": "bash -lc 'chmod +x ./scripts/devcontainer-scripts/*.sh || true && ./scripts/devcontainer-scripts/post_create.sh'"
+}

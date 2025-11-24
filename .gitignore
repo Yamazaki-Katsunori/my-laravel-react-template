@@ -1,0 +1,54 @@
+# --- macOS ---
+.DS_Store
+
+# --- Editor / IDE ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Env files ---
+.env
+.env.*
+*.local
+
+# --- pnpm store (でかい&ハッシュっぽいフォルダの正体) ---
+.pnpm-store/
+
+# --- Node / frontend 共通 ---
+node_modules/
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- Vite / build outputs ---
+dist/
+**/dist/
+.vite/
+**/.vite/
+*.log
+
+# --- Laravel backend (ルート直下にあると仮定) ---
+/backend/vendor/
+/backend/node_modules/
+/backend/public/storage/
+/backend/public/hot
+/backend/storage/*.key
+/backend/storage/logs/
+/backend/storage/framework/cache/*
+/backend/storage/framework/sessions/*
+/backend/storage/framework/views/*
+/backend/bootstrap/cache/*.php
+
+# --- frontend (React/TS/Vite) ---
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.vite/
+/frontend/.turbo/
+/frontend/coverage/
+
+# --- Docker / DevContainer 一時ファイル（必要に応じて追加） ---
+/docker/nginx/logs/
+/tmp/
