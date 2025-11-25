@@ -39,7 +39,7 @@
     "scripts": {
         "lint:php": "pint --test",
         "lint:php:fix": "pint",
-        "lint:phpstan": "phpstan analyse",
+        "lint:phpstan": "phpstan analyse --memory-limit=1G",
         "lint": [
             "@composer lint:php",
             "@composer lint:phpstan"

@@ -1,21 +1,24 @@
 includes:
-    - vendor/nunomaduro/larastan/extension.neon
+    - vendor/larastan/larastan/extension.neon
 
 parameters:
     paths:
         - app
+        - config
         - database
+        - routes
+        # テストまでチェックしたい場合は、以下のコメントアウトを外す
+        # - tests
 
-    # 最初は 4〜5 くらいから始めると現実的
+    # Level 9 が最も厳しい
     level: 5
 
-    # Laravel 用設定
-    bootstrapFiles:
-        - bootstrap/app.php
+    # phpstan実行時に落ちた場合シングルプロセス実行とする設定値
+    # 必要になったらコメントアウトを外す
+    # parallel:
+    #     maximumNumberOfProcesses: 1
 
-    checkMissingIterableValueType: true
-    checkGenericClassInNonGenericObjectType: true
-
-    # テンプレとしては maximum ではなく「ほどほど」が無難
-    ignoreErrors:
-        - '#Call to an undefined method Illuminate\\Support\\Collection#'
+    # ignoreErrors は実際にエラーが出てから追加する
+    # （ヒットしないパターンを書くと phpstan がエラーにするため）
+    # ignoreErrors:
+    #     - '#Call to an undefined method Illuminate\\Support\\Collection#'
