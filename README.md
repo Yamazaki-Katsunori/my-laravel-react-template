@@ -177,41 +177,75 @@ PHP / PHP拡張 / ランタイム構成は Dockerfile で管理する方針で�
 
 ## クイックスタート（このテンプレートリポジトリの利用方法）
 
-1. **テンプレートを自分のリポジトリとして作成 / clone**
-  1. github [my-laravel-react-template](https://github.com/Yamazaki-Katsunori/my-laravel-react-template) へアクセス
-  2. 「use this template」> 「Create a new Repository」項目をクリック
-  3. 「General」で 「Owner」を自分に指定し、「Repository name」に任意のリポジトリ名を記入
-  4. (任意) 「Description」にリポジトリの説明を記載
-  5. (任意)「Configuration」項目で Public or Private のリポジトリとするか選択
-  6. 「Create repository」ボタンをクリック
+### 事前準備
 
-   ```bash
-   git clone <your-repo-url>
-   cd <your-repo-dir>
-   ```
+* Docker（Docker Desktop など）がインストールされていること
+* VS Code と「Dev Containers」拡張機能がインストールされていること
 
-2. **VS Code でフォルダを開く**
+---
 
-3. コマンドパレットから
+### 1. テンプレートから自分のリポジトリを作成
+
+1. テンプレートリポジトリ
+   👉 [my-laravel-react-template](https://github.com/Yamazaki-Katsunori/my-laravel-react-template) にアクセス
+2. **「Use this template」 → 「Create a new repository」** をクリック
+3. **General** セクションで以下を設定
+
+   * **Owner**：自分のアカウントを選択
+   * **Repository name**：任意のリポジトリ名
+   * （任意）**Description**：リポジトリの説明
+   * （任意）**Public / Private**：公開 / 非公開を選択
+4. **「Create repository」** ボタンをクリック
+
+---
+
+### 2. 作成したリポジトリを clone する
+
+ローカルの任意の作業ディレクトリで:
+
+```bash
+git clone <your-repo-url>
+cd <your-repo-dir>
+```
+
+> `<your-repo-url>`：GitHub の「Code」ボタンからコピーした HTTPS / SSH の URL
+> 例）`git@github.com:your-name/your-repo.git`
+
+---
+
+### 3. Dev Container で開く
+
+1. VS Code で clone したフォルダ（`<your-repo-dir>`）を開く
+2. コマンドパレットから
    **「Dev Containers: Reopen in Container」** を実行
+3. コンテナのビルド & 起動完了後、`post_create.sh` が自動実行され、以下が行われます：
 
-4. コンテナのビルド & 起動完了後、`post_create.sh` が自動実行されます
-
-   * backend:
+   * **backend**:
 
      * `composer install`
-     * `.env` が無い場合は `.env.example` からコピー & `php artisan key:generate`
-   * frontend:
+     * `.env` が無い場合は `.env.example` からコピー
+     * `php artisan key:generate`
+   * **frontend**:
 
      * `pnpm install --frozen-lockfile`
 
-5. ブラウザからアクセス
+---
 
-   * Laravel（nginx 経由）: `http://localhost`（ルーティング設定に依存）
-   * Vite dev サーバ（必要に応じて）
+### 4. アプリケーションにアクセス
 
-     * workspace 内で `cd frontend && pnpm dev`
-     * `http://localhost:5173` にアクセス
+* **Laravel（nginx 経由）**
+  `http://localhost`
+  ※ 実際の表示内容はルーティング設定に依存します。
+
+* **Vite dev サーバ（フロントエンド開発用）**
+
+  ```bash
+  cd frontend
+  pnpm dev
+  ```
+
+  ブラウザで `http://localhost:5173` にアクセスします。
+
 
 ---
 
