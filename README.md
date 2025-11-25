@@ -178,6 +178,12 @@ PHP / PHP拡張 / ランタイム構成は Dockerfile で管理する方針で�
 ## クイックスタート（このテンプレートリポジトリの利用方法）
 
 1. **テンプレートを自分のリポジトリとして作成 / clone**
+  1. github [my-laravel-react-template](https://github.com/Yamazaki-Katsunori/my-laravel-react-template) へアクセス
+  2. 「use this template」> 「Create a new Repository」項目をクリック
+  3. 「General」で 「Owner」を自分に指定し、「Repository name」に任意のリポジトリ名を記入
+  4. (任意) 「Description」にリポジトリの説明を記載
+  5. (任意)「Configuration」項目で Public or Private のリポジトリとするか選択
+  6. 「Create repository」ボタンをクリック
 
    ```bash
    git clone <your-repo-url>
