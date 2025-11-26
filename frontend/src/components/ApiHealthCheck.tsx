@@ -1,39 +1,39 @@
 // frontend/src/components/ApiHealthCheck.tsx
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 
 type HealthResponse = {
-  status: string
-  app: string
-  time: string
-}
+  status: string;
+  app: string;
+  time: string;
+};
 
 export const ApiHealthCheck = () => {
-  const [data, setData] = useState<HealthResponse | null>(null)
-  const [error, setError] = useState<string | null>(null)
+  const [data, setData] = useState<HealthResponse | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchHealth = async () => {
       try {
-        const res = await fetch('/api/health')
+        const res = await fetch('/api/health');
         if (!res.ok) {
-          throw new Error(`HTTP ${res.status}`)
+          throw new Error(`HTTP ${res.status}`);
         }
-        const json = (await res.json()) as HealthResponse
-        setData(json)
+        const json = (await res.json()) as HealthResponse;
+        setData(json);
       } catch (e) {
-        setError((e as Error).message)
+        setError((e as Error).message);
       }
-    }
+    };
 
-    fetchHealth()
-  }, [])
+    fetchHealth();
+  }, []);
 
   if (error) {
-    return <div style={{ color: 'red' }}>API error: {error}</div>
+    return <div style={{ color: 'red' }}>API error: {error}</div>;
   }
 
   if (!data) {
-    return <div>Checking API health...</div>
+    return <div>Checking API health...</div>;
   }
 
   return (
@@ -45,5 +45,5 @@ export const ApiHealthCheck = () => {
         <li>time: {data.time}</li>
       </ul>
     </div>
-  )
-}
+  );
+};
