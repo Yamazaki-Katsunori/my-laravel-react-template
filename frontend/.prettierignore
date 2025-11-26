@@ -1,0 +1,17 @@
+# ビルド成果物
+dist
+build
+coverage
+
+# 依存関係
+node_modules
+pnpm-lock.yaml
+
+# Laravel 側（フロントエンドでは整形しないなら）
+vendor
+storage
+bootstrap/cache
+public
+
+# その他
+*.min.js

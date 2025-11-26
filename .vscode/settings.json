@@ -3,17 +3,42 @@
   "editor.tabSize": 2,
   "editor.formatOnSave": false,
 
+  // ここは言語関係なく有効な設定なので「直下」に置く
+  // VSCode のワークスペースルートからの相対パスになるので、
+  // frontend/ 配下に node_modules があるならパスもそこに合わせる
+  "prettier.prettierPath": "frontend/node_modules/prettier/index.cjs",
+
+  "[json]": {
+    "editor.tabSize": 2,
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  },
+
+  "[yaml]": {
+    "editor.tabSize": 2,
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  },
+
   // TypeScript 向けオーバーライド
   "[typescript]": {
+    "editor.tabSize": 4,
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  },
+
+  // （TSX も Prettier で保存時フォーマットしたい場合）
+  "[typescriptreact]": {
     "editor.tabSize": 4,
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
 
-  // PHP 向けオーバーライド
+  // ★ PHP 向けオーバーライド（ここで Pint を指定）
   "[php]": {
     "editor.tabSize": 4,
     "editor.formatOnSave": true,
-    "editor.rulers": [120]
+    "editor.rulers": [120],
+    "editor.defaultFormatter": "open-southeners.laravel-pint"
   }
 }

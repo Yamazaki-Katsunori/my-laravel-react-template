@@ -37,6 +37,7 @@
         "bierner.markdown-preview-github-styles",
         "shd101wyy.markdown-preview-enhanced",
         "bmewburn.vscode-intelephense-client",
+        "open-southeners.laravel-pint",
         "felixfbecker.php-debug",
         "laravel.vscode-laravel",
         "amiralizadeh9480.laravel-extra-intellisense",
@@ -62,6 +63,7 @@
         "leodevbro.blockman",
         "eamodio.gitlens",
         "GitHub.vscode-pull-request-github",
+        "github.copilot-chat",
         "mhutchie.git-graph"
       ],
       "settings": {
