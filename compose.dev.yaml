@@ -44,6 +44,20 @@ services:
     ports:
       - "5432:5432"
 
+  # Valkey: base の定義に ports だけ追加
+  valkey:
+    ports:
+      - "6379:6379"
+  
+  # mailpit
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "1205:1205"
+      - "8025:8025"
+    networks:
+     - devnet
+
 volumes:
   # devcontainer 用のキャッシュ（開発専用）
   devcontainer-npm-cache:

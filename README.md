@@ -62,6 +62,12 @@ VS Code Dev Containers を使って
   * PostgreSQL 17 データベースコンテナ
   * 設定ファイル（`postgresql.conf` / `pg_hba.conf` / `pg_ident.conf`）をボリュームマウント
 
+* **ValKey**
+
+  * Redis互換のインメモリDB
+  * OSSのため採用
+
+
 ### compose.dev.yaml
 
 開発専用の設定を定義しています。
@@ -70,13 +76,19 @@ VS Code Dev Containers を使って
 
   * VS Code が attach する開発用コンテナ
   * PHP CLI / Composer / Node / pnpm など開発ツールを利用
-* **php / nginx / postgres**
+
+* **php / nginx / postgres / ValKey**
 
   * `compose.base.yaml` のサービスに対して
 
-    * ポート公開（`80:80`, `5432:5432`）
+    * ポート公開（`80:80`, `5432:5432`, `6379:6379`）
     * Xdebug 用環境変数（開発時のみ）
       などの **開発専用設定を上書き・追加**
+
+* **Mailpit**
+
+  * 開発用メールサーバー
+
 
 Dev Containers からはこの 2 枚をマージして利用します：
 
@@ -137,6 +149,29 @@ Dev Containers からはこの 2 枚をマージして利用します：
 * 役割:
 
   * Laravel backend 用の PostgreSQL データベース
+
+### ValKey コンテナ
+
+* ベースイメージ: `valkey/valkey:latest`
+* 設定:
+   
+   * `command :["valkey-server", "--appendonly", "yes"]` を設定
+   * valkeydata をボリュームマウント
+* 役割:
+    
+    * インメモリDBを利用したい場合のテンプレートとして用意
+
+### Mailpit コンテナ
+
+* ベースイメージ: `axllent/mailpit:latest`
+* 設定:
+
+  * `port [smtp=205:1205,ui=8025:8025]` を設定
+* 役割:
+
+  * 開発環境のみの使用想定
+  * 開発でのメールサーバーとして利用したい場合のテンプレートとして用意
+
 
 ---
 
@@ -281,3 +316,7 @@ cd <your-repo-dir>
 1. [Backendの初期導入されているパッケージについて](/docs/frontend/01_frontend-directory.md)
 2. [Peck/Rectorの導入について](/docs/backend/02_backend-peck-rector-install.md)
 3. [Backendでのテスト方法について](/docs/backend/03_backend-testing.md)
+
+## ValKey/Mailpitの確認について
+1. [Mailpitの確認方法](/docs/mailpit/test-mail.md)
+2. [ValKeyの確認方法](/docs/valkey/test-valkey.md)

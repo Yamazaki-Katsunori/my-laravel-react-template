@@ -35,7 +35,7 @@ services:
     environment:
       POSTGRES_DB: laravel
       POSTGRES_USER: laravel
-      POSTGRES_PASSWORD: secret
+      POSTGRES_PASSWORD: password
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./docker/db/postgresql.conf:/etc/postgresql/postgresql.conf:ro
@@ -44,11 +44,21 @@ services:
     command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
     networks:
       - devnet
-    # ports は dev 側で追加
+
+  # ← ここに Valkey 追加
+  valkey:
+    image: valkey/valkey:latest   # or valkey/valkey:alpine
+    command: ["valkey-server", "--appendonly", "yes"]
+    volumes:
+      - valkeydata:/data
+    networks:
+      - devnet
+    # 開発用のポート公開は compose.dev.yaml 側で
 
 volumes:
   # DB 永続化用（本番/CI でも共通）
   pgdata:
+  valkeydata:
 
 networks:
   devnet:

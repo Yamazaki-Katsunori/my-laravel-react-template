@@ -18,11 +18,14 @@ RUN set -eux; \
     apt-get install -y --no-install-recommends \
       ca-certificates curl git unzip tar gzip xz-utils bzip2 \
       jq libpq-dev build-essential procps \
+      autoconf pkg-config zlib1g-dev libssl-dev \
     ; \
     rm -rf /var/lib/apt/lists/*; \
     \
-    # 2) PHP 拡張のビルド/有効化 --
+    # 2) PHP 拡張のビルド/有効化 (pdo_pgsql + redis) --
     docker-php-ext-install pdo pdo_pgsql; \
+    pecl install redis; \
+    docker-php-ext-enable redis; \
     \
     # 3) ユーザ/グループ作成、workspace と home の準備 --
     groupadd --gid "${USER_GID}" "${USERNAME}" 2>/dev/null || true; \
